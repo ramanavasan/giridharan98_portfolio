@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero Test — M. Giridharan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #EBE9E5;
+  color: #111;
+  font-family: 'Inter', -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+.editorial-hero {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 620px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Outer giant typography across canvas */
+.name-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: clamp(80px, 14.5vw, 210px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+}
+.outer-name {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #0A0A0C;
+  z-index: 1;
+}
+
+/* Floating Editorial Card Frame */
+.hero-frame {
+  position: relative;
+  width: min(92vw, 1040px);
+  height: min(84vh, 640px);
+  border: 2.5px solid #0A0A0C;
+  border-radius: clamp(22px, 3.5vw, 36px);
+  background: #1a1816;
+  overflow: hidden;
+  z-index: 2;
+  box-shadow: 0 45px 120px rgba(0, 0, 0, 0.22), 0 14px 40px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Background Photo Layer inside the Card */
+.frame-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+.frame-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  transform: scale(1.01);
+  transition: transform 1.4s cubic-bezier(.22, .8, .24, 1);
+}
+.hero-frame:hover .frame-photo {
+  transform: scale(1.05);
+}
+
+/* Atmospheric gradient overlay for contrast */
+.frame-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 12, 0.52) 0%,
+    rgba(10, 10, 12, 0.12) 30%,
+    rgba(10, 10, 12, 0.18) 65%,
+    rgba(10, 10, 12, 0.78) 100%
+  );
+  pointer-events: none;
+}
+
+/* Inner Name in White */
+.inner-name {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #FFFFFF;
+  z-index: 3;
+  pointer-events: none;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* Header inside card */
+.frame-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(20px, 3vw, 36px) clamp(24px, 4vw, 44px);
+  color: #FFFFFF;
+}
+.frame-brand {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+.frame-nav {
+  display: flex;
+  gap: clamp(18px, 2.8vw, 36px);
+}
+.frame-nav a {
+  text-decoration: none;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.9;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  transition: opacity .2s, transform .2s;
+}
+.frame-nav a:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+/* Footer inside card */
+.frame-footer {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: clamp(20px, 3vw, 36px) clamp(24px, 4vw, 44px);
+  color: #FFFFFF;
+}
+.frame-socials {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.frame-socials a {
+  color: #FFFFFF;
+  text-decoration: none;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+  transition: transform .2s, opacity .2s;
+}
+.frame-socials a:hover {
+  transform: scale(1.15);
+  opacity: 1;
+}
+.frame-role {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.frame-role h2 {
+  font-size: clamp(18px, 2.5vw, 32px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 768px) {
+  .frame-nav { display: none; }
+  .frame-socials { flex-direction: row; }
+}
+</style>
+</head>
+<body>
+<div class="editorial-hero">
+  <div class="name-text outer-name">M. Giridharan</div>
+  <div class="hero-frame">
+    <!-- EXACT SAME PHOTOGRAPH (Full-bleed cinematic cover with warm sunset & motorcycle) -->
+    <div class="frame-backdrop">
+      <img src="assets/profile.jpg" alt="M. Giridharan" class="frame-photo">
+      <div class="frame-overlay"></div>
+    </div>
+
+    <!-- Inner typography in pure white, aligning seamlessly across the card boundary -->
+    <div class="name-text inner-name">M. Giridharan</div>
+
+    <!-- Top Bar inside Card -->
+    <header class="frame-header">
+      <div class="frame-brand">© M. Giridharan</div>
+      <nav class="frame-nav">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#resume">Resume</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Bottom Bar inside Card -->
+    <footer class="frame-footer">
+      <div class="frame-socials">
+        <a href="https://github.com/Giridharan9826" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/GIRIDHARAN.M" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/_zeke_0908_" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+      </div>
+      <div class="frame-role">
+        <h2>AI &amp; Data Science Student</h2>
+        <h2>Machine Learning Developer</h2>
+      </div>
+    </footer>
+  </div>
+</div>
+</body>
+</html>

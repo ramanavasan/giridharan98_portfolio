@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>404 — Page Not Found | M. Giridharan</title>
+<meta name="description" content="The requested page could not be found. Return to M. Giridharan's AI & Data Science portfolio.">
+<meta name="robots" content="noindex, follow">
+<meta name="copyright" content="© 2026 M. Giridharan. All Rights Reserved.">
+<meta name="theme-color" content="#EBE9E5">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="alternate icon" href="assets/favicon.svg">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #EBE9E5;
+  --card-bg: #11100F;
+  --card-surface: #181715;
+  --tx: #0D0C10;
+  --tx-light: #F4F2EE;
+  --mut: rgba(13, 12, 16, 0.65);
+  --mut-light: rgba(244, 242, 238, 0.65);
+  --line: rgba(13, 12, 16, 0.12);
+  --line-light: rgba(244, 242, 238, 0.12);
+  --gold: #D4AF37;
+  --gold-glow: rgba(212, 175, 55, 0.25);
+  --pu: #6D28D9;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --ease: cubic-bezier(.22, .8, .24, 1);
+  color-scheme: light;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  width: 100%;
+  background: var(--bg);
+  color: var(--tx);
+  font: 300 16px/1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+::selection { background: var(--tx); color: #fff; }
+
+/* Main Stage Container */
+.stage {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 30px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Giant background typography across the canvas */
+.watermark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--sans);
+  font-weight: 900;
+  font-size: clamp(140px, 28vw, 420px);
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  color: rgba(13, 12, 16, 0.06);
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 1;
+  text-align: center;
+}
+
+/* Floating Editorial Card */
+.error-card {
+  position: relative;
+  width: min(92vw, 1020px);
+  min-height: min(86vh, 660px);
+  background: var(--card-bg);
+  color: var(--tx-light);
+  border: 2.5px solid #0A0A0C;
+  border-radius: clamp(22px, 3.5vw, 36px);
+  overflow: hidden;
+  z-index: 2;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.22), 0 12px 36px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Ambient canvas for neural network node graph */
+#graphCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.45;
+  z-index: 1;
+}
+
+/* Card Header */
+.card-header {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 26px clamp(20px, 4vw, 40px);
+  border-bottom: 1px solid var(--line-light);
+  font-size: 11px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+}
+
+.brand-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--gold);
+}
+
+.card-nav {
+  display: flex;
+  gap: 24px;
+}
+
+.card-nav a {
+  color: var(--mut-light);
+  transition: color .25s;
+}
+
+.card-nav a:hover {
+  color: #fff;
+}
+
+/* Card Body Content */
+.card-body {
+  position: relative;
+  z-index: 3;
+  padding: clamp(30px, 5vw, 60px) clamp(20px, 4vw, 50px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 22px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* Status Pill */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #f0e6d2;
+}
+
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  background: #EF4444;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #EF4444;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .4; transform: scale(0.85); }
+}
+
+/* Big 404 Headline */
+.error-title {
+  font-family: var(--serif);
+  font-size: clamp(48px, 6.5vw, 86px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.error-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: #E2DFD8;
+}
+
+.error-desc {
+  font-size: clamp(15px, 1.8vw, 17px);
+  color: var(--mut-light);
+  line-height: 1.65;
+  max-width: 58ch;
+}
+
+.route-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  color: #F8E7B4;
+  font-family: var(--mono);
+  font-size: 0.9em;
+  word-break: break-all;
+}
+
+/* Action Buttons */
+.card-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  padding: 14px 28px;
+  border: 1.5px solid var(--tx-light);
+  background: none;
+  color: var(--tx-light);
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .25s var(--ease);
+  font-family: var(--sans);
+  text-align: center;
+}
+
+.btn:hover {
+  background: var(--tx-light);
+  color: #0A0A0C;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.btn.primary {
+  background: var(--tx-light);
+  color: #0A0A0C;
+  border-color: var(--tx-light);
+}
+
+.btn.primary:hover {
+  background: transparent;
+  color: var(--tx-light);
+}
+
+.btn.outline {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--tx-light);
+}
+
+.btn.outline:hover {
+  border-color: var(--tx-light);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+/* Quick Jump Directory */
+.quick-jump {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.quick-label {
+  font-size: 10px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--mut-light);
+  font-weight: 700;
+}
+
+.quick-links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.quick-pill {
+  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #dedede;
+  font-size: 11px;
+  letter-spacing: .08em;
+  transition: all .2s;
+}
+
+.quick-pill:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Card Footer */
+.card-footer {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px clamp(20px, 4vw, 40px);
+  border-top: 1px solid var(--line-light);
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--mut-light);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-right a {
+  color: var(--tx-light);
+  transition: color .2s;
+}
+
+.footer-right a:hover {
+  color: var(--gold);
+}
+
+/* Countdown bar */
+.countdown-txt {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 0;
+}
+
+/* Custom Interactive Cursor */
+#cd, #cr {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 3000;
+  pointer-events: none;
+  border-radius: 50%;
+  opacity: 0;
+  mix-blend-mode: difference;
+  transition: opacity .3s;
+}
+#cd {
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  background: #fff;
+}
+#cr {
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+  border: 1.5px solid #fff;
+  transition: opacity .3s, width .35s var(--ease), height .35s var(--ease), margin .35s var(--ease), background .3s;
+}
+#cr.hv {
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  background: rgba(255, 255, 255, .2);
+}
+#cr.dn {
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+}
+html.cc, html.cc * { cursor: none; }
+html.cm #cd, html.cm #cr { opacity: 1; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .error-card {
+    min-height: auto;
+    border-radius: 20px;
+  }
+  .card-nav {
+    display: none;
+  }
+  .card-header, .card-footer {
+    padding: 18px 20px;
+  }
+  .card-body {
+    padding: 40px 20px;
+  }
+  .card-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <!-- Giant Background Watermark -->
+  <div class="watermark" aria-hidden="true">
+    404<br>LOST
+  </div>
+
+  <!-- The Centered Floating Frame Card -->
+  <main class="error-card" role="main">
+    <canvas id="graphCanvas"></canvas>
+
+    <!-- Top Card Header -->
+    <header class="card-header">
+      <a href="/" class="brand">
+        <span class="brand-dot"></span>
+        <span>© M. Giridharan</span>
+      </a>
+      <nav class="card-nav" aria-label="Quick links">
+        <a href="/">Home</a>
+        <a href="/#about">About</a>
+        <a href="/#skills">Skills</a>
+        <a href="/#projects">Projects</a>
+        <a href="/#resume">Resume</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Central Body -->
+    <div class="card-body">
+      <div class="status-pill">
+        <span class="pulse-dot"></span>
+        <span>HTTP 404 · Node Not Found</span>
+      </div>
+
+      <h1 class="error-title">
+        Lost in <em>Latent Space</em>
+      </h1>
+
+      <p class="error-desc">
+        The route <span class="route-badge" id="routeText">/unknown</span> does not exist in this neural network or has been repositioned. Let's redirect you back to known coordinates.
+      </p>
+
+      <div class="card-actions">
+        <a href="/" class="btn primary" id="homeBtn">
+          ← Return to Home
+        </a>
+        <button type="button" class="btn outline" id="backBtn">
+          ↩ Go Back
+        </button>
+      </div>
+
+      <div class="quick-jump">
+        <span class="quick-label">Explore Directly:</span>
+        <div class="quick-links">
+          <a href="/#projects" class="quick-pill">Projects</a>
+          <a href="/#skills" class="quick-pill">Skills &amp; Tools</a>
+          <a href="/#about" class="quick-pill">About Giridharan</a>
+          <a href="/#resume" class="quick-pill">Resume</a>
+          <a href="/#contact" class="quick-pill">Contact</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Card Footer -->
+    <footer class="card-footer">
+      <div class="footer-left">
+        <span>© 2026 M. Giridharan · All Rights Reserved</span>
+      </div>
+      <div class="footer-right">
+        <span id="autoRedirectMsg" class="countdown-txt"></span>
+        &nbsp;·&nbsp;
+        <a href="mailto:giridharanmanavalan98@gmail.com">giridharanmanavalan98@gmail.com</a>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<!-- Interactive Custom Cursor -->
+<div id="cd" aria-hidden="true"></div>
+<div id="cr" aria-hidden="true"></div>
+
+<script>
+/* Set Dynamic Path Display */
+const path = window.location.pathname || '/unknown';
+const routeEl = document.getElementById('routeText');
+if (routeEl) {
+  routeEl.textContent = path.length > 36 ? path.slice(0, 36) + '...' : path;
+}
+
+/* History Back Handler */
+document.getElementById('backBtn').addEventListener('click', () => {
+  if (window.history.length > 1) {
+    window.history.back();
+  } else {
+    window.location.href = '/';
+  }
+});
+
+/* Optional subtle auto-redirect timer */
+let timeLeft = 15;
+const redirectMsg = document.getElementById('autoRedirectMsg');
+const timer = setInterval(() => {
+  timeLeft--;
+  if (redirectMsg) {
+    redirectMsg.textContent = `Home in ${timeLeft}s`;
+  }
+  if (timeLeft <= 0) {
+    clearInterval(timer);
+    window.location.href = '/';
+  }
+}, 1000);
+if (redirectMsg) {
+  redirectMsg.textContent = `Home in ${timeLeft}s`;
+  redirectMsg.title = "Click to cancel auto-redirect";
+  redirectMsg.style.cursor = "pointer";
+  redirectMsg.addEventListener('click', () => {
+    clearInterval(timer);
+    redirectMsg.textContent = "Redirect paused";
+  });
+}
+
+/* Interactive Neural Graph Particle Canvas */
+(function initCanvas() {
+  const canvas = document.getElementById('graphCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let particles = [];
+  let mouse = { x: -1000, y: -1000, active: false };
+
+  function resize() {
+    width = canvas.width = canvas.offsetWidth;
+    height = canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const count = Math.min(48, Math.floor((width * height) / 12000));
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.7,
+      vy: (Math.random() - 0.5) * 0.7,
+      radius: Math.random() * 2 + 1.2
+    });
+  }
+
+  window.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+    mouse.active = true;
+  });
+
+  window.addEventListener('mouseleave', () => {
+    mouse.active = false;
+  });
+
+  function render() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Update and draw particles
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0 || p.x > width) p.vx *= -1;
+      if (p.y < 0 || p.y > height) p.vy *= -1;
+
+      // Mouse subtle pull
+      if (mouse.active) {
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 140) {
+          p.x += dx * 0.015;
+          p.y += dy * 0.015;
+        }
+      }
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = '#D4AF37';
+      ctx.fill();
+
+      // Connect near particles
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dx = p.x - p2.x;
+        const dy = p.y - p2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 110) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = `rgba(212, 175, 55, ${0.28 * (1 - dist / 110)})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(render);
+  }
+  render();
+})();
+
+/* Custom Cursor */
+if (matchMedia('(hover:hover) and (pointer:fine)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches) {
+  const root = document.documentElement;
+  root.classList.add('cc');
+  const cd = document.getElementById('cd');
+  const cr = document.getElementById('cr');
+  let mx = -100, my = -100, rx = -100, ry = -100;
+
+  window.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    const t = e.target;
+    root.classList.add('cm');
+    cr.classList.toggle('hv', !!t.closest('a, button, .quick-pill'));
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', () => root.classList.remove('cm'));
+  window.addEventListener('mousedown', () => cr.classList.add('dn'));
+  window.addEventListener('mouseup', () => cr.classList.remove('dn'));
+
+  (function loop() {
+    rx += (mx - rx) * 0.16;
+    ry += (my - ry) * 0.16;
+    cd.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
+    cr.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
+    requestAnimationFrame(loop);
+  })();
+
+  document.querySelectorAll('.btn, .quick-pill, .card-nav a').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      el.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .18}px, ${(e.clientY - r.top - r.height / 2) * .28}px)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transform = '';
+    });
+  });
+}
+</script>
+</body>
+</html>
